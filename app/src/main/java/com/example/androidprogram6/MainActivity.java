@@ -15,8 +15,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity {
-    private final String apiString = "https://agify.io/?name=";
+    private final String apiString = "https://api.agify.io/?name=";
     private String jsonResponse;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +51,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 jsonResponse = response;
+
                 jsonConverter converter = new jsonConverter();
                 apiObj agify = converter.convertToObject(jsonResponse);
                 TextView ageTV = findViewById(R.id.agePredTV);
 
                 if(agify.age == null){
-                    ageTV.setText("Age is ...");
+                    ageTV.setText("Age is ... undetermined");
                 }else {
                     ageTV.setText("Age is " + agify.age);
                 }
+
+
             }
         }, new Response.ErrorListener() {
             @Override
